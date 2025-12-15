@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('numero');                      // 59
             $table->string('clave')->unique();             // D-II-59
 
+            $table->foreignId('nomenclatura_id')->constrained('nomenclaturas');
+
+
             // Datos completos (para PDFs)
             $table->string('sede')->nullable();            
             $table->string('direccion')->nullable();       

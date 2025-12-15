@@ -1,0 +1,6 @@
+id,codigo,descripcion,tipo
+1,D-I-,Delegación Activa,ACTIVO
+2,D-II-,Delegación Activa,ACTIVO
+3,D-III-,Delegación Activa,ACTIVO
+4,D-IV-,Delegación de Jubilados,JUBILADO
+5,C.T.,Centro de Trabajo,CT

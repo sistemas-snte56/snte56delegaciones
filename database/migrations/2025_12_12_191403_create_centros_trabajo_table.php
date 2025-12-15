@@ -13,9 +13,22 @@ return new class extends Migration
     {
         Schema::create('centros_trabajo', function (Blueprint $table) {
             $table->id();
-            $table->string('clave');   // C.T. 01
+            $table->string('clave')->unique();   // C.T. 01
             $table->foreignId('region_id')->constrained('regiones');
-            $table->foreignId('nivel_id')->constrained('niveles');            
+            $table->foreignId('nivel_id')->constrained('niveles');    
+            
+            $table->foreignId('nomenclatura_id')->constrained('nomenclaturas');
+
+            // Datos completos (para PDFs)
+            $table->string('sede')->nullable();            
+            $table->string('direccion')->nullable();       
+            $table->string('cp')->nullable();
+            $table->string('ciudad')->nullable();
+            $table->string('estado')->nullable();
+
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_fin')->nullable(); 
+
             $table->timestamps();
         });
     }

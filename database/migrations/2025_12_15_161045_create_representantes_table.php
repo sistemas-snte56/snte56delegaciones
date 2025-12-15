@@ -18,8 +18,13 @@ return new class extends Migration
             $table->foreignId('persona_id')->constrained('personas');
 
             // Relacion sindical
-            $table->foreignId('delegacion_id')->constrained('delegaciones');
-            $table->foreignId('centro_trabajo_id')->constrained('centros_trabajo');
+            $table->foreignId('delegacion_id')
+                ->nullable()
+                ->constrained('delegaciones');
+
+            $table->foreignId('centro_trabajo_id')
+                ->nullable()
+                ->constrained('centros_trabajo');
 
             // Cargo Sindical (Carteras)
             $table->foreignId('cargo_id')->constrained('cargos');
