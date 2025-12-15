@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -22,6 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+
+        'persona_id',
+        'rol',
     ];
 
     /**
@@ -45,5 +49,31 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * El usuario pertenece a una persona
+     */
+
+    public function persona():BelongsTo
+    {
+        return $this->belongsTo(Persona::class, 'persona_id');
+    }
+
+    /**
+     * Helpers del rol (opcional pero recomendado)
+     */
+
+    public function isAdministrador(): bool
+    {
+        return $this->rol === 'ADMINISTRADOR';
+    }
+    public function isCoordinador(): bool
+    {
+        return $this->rol === 'COORDINADOR';
+    }
+    public function isRepresentante(): bool
+    {
+        return $this->rol === 'REPRESENTANTE';
     }
 }
