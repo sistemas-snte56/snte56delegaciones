@@ -16,6 +16,8 @@ class Delegacion extends Model
         'tipo',          // ACTIVO | JUBILADO
         'numero',        // 59
         'clave',         // D-II-59
+        'nomenclatura_id',
+        'estatus',
         'sede',
         'direccion',
         'cp',

@@ -15,10 +15,14 @@ class CentroTrabajo extends Model
         'nivel_id',
         'nombre',
         'clave',        // C.T.-01
+        'estatus',
+        'sede',
         'direccion',
         'cp',
         'ciudad',
         'estado',
+        'fecha_inicio',
+        'fecha_fin',        
     ];
 
     /**

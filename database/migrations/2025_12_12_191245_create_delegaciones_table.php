@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('region_id')->constrained('regiones');
             $table->foreignId('nivel_id')->constrained('niveles');
 
-            $table->enum('tipo', ['ACTIVO', 'JUBILADO']);  // Comité activo / jubilado
+            $table->enum('tipo', ['ACTIVO', 'JUBILADO','CT']);  // Comité activo / jubilado
             $table->string('numero');                      // 59
             $table->string('clave')->unique();             // D-II-59
 
