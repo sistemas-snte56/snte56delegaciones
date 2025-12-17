@@ -69,7 +69,7 @@
                                     <option value="">Seleccione</option>
                                     <option value="ACTIVO">Activos</option>
                                     <option value="JUBILADO">Jubilados</option>
-                                    <option value="CT">Centro de Trabajo</option>
+                                    <option value="CENTRO_TRABAJO">Centro de Trabajo</option>
                                 </select>
                                 @error('tipo')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -77,18 +77,18 @@
                             </div>
     
                             <div class="lg:col-span-3">
-                                <label for="nomenclatura" class="block mb-1 text-orange-600 font-semibold">
+                                <label for="nomenclatura_id" class="block mb-1 text-orange-600 font-semibold">
                                     Selecciona la Nomenclatura <span class="text-red-600">*</span>
                                 </label>
-                                <select id="nomenclatura" wire:model="nomenclatura_id" class="w-full h-12 border rounded px-3 p-2
+                                <select id="nomenclatura_id" wire:model="nomenclatura_id" class="w-full h-12 border rounded px-3 p-2
                                     focus:outline-none focus:ring-2 focus:ring-blue-600
-                                    @error('nomenclatura') border-red-500 @else border-gray-300 @enderror">
+                                    @error('nomenclatura_id') border-red-500 @else border-gray-300 @enderror">
                                     <option value="">Seleccione</option>
                                     @foreach ($nomenclaturas as $nom)
                                     <option value="{{ $nom->id }}">{{ $nom->codigo }}</option>
                                     @endforeach
                                 </select>
-                                @error('nomenclatura')
+                                @error('nomenclatura_id')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -111,7 +111,7 @@
                                 </label>
                                 <select id="nivel_id" wire:model="nivel_id" class="w-full h-12 border rounded px-3 p-2
                                     focus:outline-none focus:ring-2 focus:ring-blue-600
-                                    @error('nivel_id') border-red-500 @else border-gray-300 @enderror">
+                                    @error('nivel_id') border-red-500 @else border-gray-300 @enderror" @if($tipo === 'CENTRO_TRABAJO') disabled @endif>
                                     <option value="">Selecciona un nivel</option>
                                     @foreach ($niveles as $nivel)
                                     <option value="{{ $nivel->id }}">{{ $nivel->nombre }}</option>
@@ -129,7 +129,7 @@
                                 <label for="sede" class="block mb-1 text-orange-600 font-semibold">
                                     Sede <span class="text-red-600">*</span>
                                 </label>
-                                <input id="sede" type="text" wire:model.live="sede" placeholder="Cuál es la sede" class="w-full h-12 border rounded px-3 p-2
+                                <input id="sede" type="text" wire:model.defer="sede" placeholder="Cuál es la sede" class="w-full h-12 border rounded px-3 p-2
                                 focus:outline-none focus:ring-2 focus:ring-blue-600
                                 @error('sede') border-red-500 @else border-gray-300 @enderror" />
                                 @error('sede')
@@ -141,7 +141,7 @@
                                 <label for="direccion" class="block mb-1 text-orange-600 font-semibold">
                                     Dirección <span class="text-red-600">*</span>
                                 </label>
-                                <input id="direccion" type="text" wire:model.live="direccion"
+                                <input id="direccion" type="text" wire:model.defer="direccion"
                                     placeholder="Ingresa la dirección" class="w-full h-12 border rounded px-3 p-2
                                     focus:outline-none focus:ring-2 focus:ring-blue-600
                                     @error('direccion') border-red-500 @else border-gray-300 @enderror" />
@@ -170,7 +170,7 @@
                                 <label for="ciudad" class="block mb-1 text-orange-600 font-semibold">
                                     Municipio <span class="text-red-600">*</span>
                                 </label>
-                                <input id="ciudad" type="text" wire:model.live="ciudad" placeholder="Ingresa la ciudad"
+                                <input id="ciudad" type="text" wire:model.defer="ciudad" placeholder="Ingresa la ciudad"
                                     class="w-full h-12 border rounded px-3 p-2
                                     focus:outline-none focus:ring-2 focus:ring-blue-600
                                     @error('ciudad') border-red-500 @else border-gray-300 @enderror" />
@@ -183,7 +183,7 @@
                                 <label for="estado" class="block mb-1 text-orange-600 font-semibold">
                                     Estado <span class="text-red-600">*</span>
                                 </label>
-                                <input id="estado" type="text" wire:model.live="estado" placeholder="Ingresa el estado"
+                                <input id="estado" type="text" wire:model.defer="estado" placeholder="Ingresa el estado"
                                     class="w-full h-12 border rounded px-3 p-2
                                     focus:outline-none focus:ring-2 focus:ring-blue-600
                                     @error('estado') border-red-500 @else border-gray-300 @enderror" />

@@ -56,7 +56,7 @@ class Create extends Component
         'fecha_final.required' => 'Debes seleccionar la fecha final.',
         'fecha_final.after_or_equal' => 'La fecha final debe ser igual o posterior a la fecha inicial.',
         'tipo.required' => 'Debes seleccionar el tipo de delegación.',
-        'nomenclatura.required' => 'Debes seleccionar una nomenclatura.',
+        'nomenclatura_id.required' => 'Debes seleccionar una nomenclatura.',
         'numero.required' => 'El número delegacional es obligatorio.',
         'numero.numeric' => 'El número delegacional debe ser numérico.',
         'nivel_id.required' => 'Debes seleccionar el nivel educativo.',
@@ -76,7 +76,7 @@ class Create extends Component
     
     
     public function updatedTipo($value)
-    {
+    {   /*
         $this->nomenclatura = '';
 
         if ($value) {
@@ -84,34 +84,34 @@ class Create extends Component
         } else {
             $this->nomenclaturas = [];
         }
+        */
+        $this->reset([
+            'nomenclatura_id',
+            'numero',
+            'clave'
+        ]);
+
+        $this->resetErrorBag();
+
+        $this->nomenclaturas = $value
+            ? Nomenclatura::where('tipo',$value)->get()
+            : collect();
     }
 
     public function updatedNumero()
     {
         $this->generarClave();
+        $this->validarClave();
     }
 
-    // public function generarClave()
-    // {
-    //     if ($this->nomenclatura_id && $this->numero !== null) {
-    //         $nomenclatura = Nomenclatura::find($this->nomenclatura_id);
-    //         if ($nomenclatura) {
-    //             $numeroFormateado = str_pad($this->numero, 2, '0', STR_PAD_LEFT);
-    //             $this->clave = "{$nomenclatura->codigo}{$numeroFormateado}";
-    //             # code...
-    //         }
-    //     } else {
-    //         $this->clave = '';
-    //     }
-
-
-    // }
-
-
-
+    public function updatedNomenclaturaId()
+    {
+        $this->generarClave();
+        $this->validarClave();
+    }
 
     public function generarClave()
-    {
+    { /*
         if ($this->nomenclatura_id && $this->numero !== null) {
             $nomenclatura = Nomenclatura::find($this->nomenclatura_id);
             if ($nomenclatura) {
@@ -133,48 +133,41 @@ class Create extends Component
             $this->clave = '';
             $this->resetErrorBag('clave'); // Limpia errores si no hay clave
         }
+       */
+
+        if ($this->nomenclatura_id && $this->numero !== null) {
+            $nomenclatura = $this->nomenclaturas->firstWhere('id', $this->nomenclatura_id);
+            if ($nomenclatura) {
+                $numeroFormateado = str_pad($this->numero,2,'0',STR_PAD_LEFT);
+                $this->clave = "{$nomenclatura->codigo}{$numeroFormateado}";
+            }
+        } else {
+            $this->clave = '';
+        }
+    }
+
+    public function validarClave()
+    {
+        if(!$this->clave) return;
+        $existe = Delegacion::where('clave',$this->clave)
+            ->where('estatus','ACTIVA')
+            ->exists();
+
+        if ($existe) {
+            $this->addError('clave','La delegación ya está en uso');
+        } else {
+            $this->resetErrorBag('clave');
+        }
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public function updatedClave($value)
-    // {
-    //     dd($value);
-
-    //     // Solo validar si hay valor
-    //     if ($value) {
-    //         $existe = Delegacion::where('clave',$value)
-    //             ->where('estatus','ACTIVA')
-    //             ->exists();
-    //         if ($existe) {
-    //             $this->addError('clave','La delegación ya está en uso por una delegación activa.');
-    //         } else {
-    //             $this->resetErrorBag('clave'); // Quita el error si ya no existe
-    //         }
-    //     }
-    // }    
+  
 
     public function guardar()
     {
         $this->validate();
 
-        $clave = $this->generarClave();
+        $clave = $this->clave;
 
         $existe = Delegacion::where('clave', $clave)
             ->where('estatus', 'ACTIVA')
