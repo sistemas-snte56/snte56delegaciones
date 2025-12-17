@@ -91,6 +91,25 @@ class Create extends Component
         $this->generarClave();
     }
 
+    // public function generarClave()
+    // {
+    //     if ($this->nomenclatura_id && $this->numero !== null) {
+    //         $nomenclatura = Nomenclatura::find($this->nomenclatura_id);
+    //         if ($nomenclatura) {
+    //             $numeroFormateado = str_pad($this->numero, 2, '0', STR_PAD_LEFT);
+    //             $this->clave = "{$nomenclatura->codigo}{$numeroFormateado}";
+    //             # code...
+    //         }
+    //     } else {
+    //         $this->clave = '';
+    //     }
+
+
+    // }
+
+
+
+
     public function generarClave()
     {
         if ($this->nomenclatura_id && $this->numero !== null) {
@@ -98,32 +117,58 @@ class Create extends Component
             if ($nomenclatura) {
                 $numeroFormateado = str_pad($this->numero, 2, '0', STR_PAD_LEFT);
                 $this->clave = "{$nomenclatura->codigo}{$numeroFormateado}";
-                # code...
+
+                // Validación de duplicado al instante
+                $existe = Delegacion::where('clave', $this->clave)
+                    ->where('estatus', 'ACTIVA')
+                    ->exists();
+
+                if ($existe) {
+                    $this->addError('clave', 'La delegación ya está en uso por una delegación activa.');
+                } else {
+                    $this->resetErrorBag('clave'); // Quita el error si ya no existe
+                }
             }
         } else {
             $this->clave = '';
+            $this->resetErrorBag('clave'); // Limpia errores si no hay clave
         }
-
-
     }
 
 
-    public function updatedClave($value)
-    {
-        dd($value);
-        
-        // Solo validar si hay valor
-        if ($value) {
-            $existe = Delegacion::where('clave',$value)
-                ->where('estatus','ACTIVA')
-                ->exists();
-            if ($existe) {
-                $this->addError('clave','La delegación ya está en uso por una delegación activa.');
-            } else {
-                $this->resetErrorBag('clave'); // Quita el error si ya no existe
-            }
-        }
-    }    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function updatedClave($value)
+    // {
+    //     dd($value);
+
+    //     // Solo validar si hay valor
+    //     if ($value) {
+    //         $existe = Delegacion::where('clave',$value)
+    //             ->where('estatus','ACTIVA')
+    //             ->exists();
+    //         if ($existe) {
+    //             $this->addError('clave','La delegación ya está en uso por una delegación activa.');
+    //         } else {
+    //             $this->resetErrorBag('clave'); // Quita el error si ya no existe
+    //         }
+    //     }
+    // }    
 
     public function guardar()
     {

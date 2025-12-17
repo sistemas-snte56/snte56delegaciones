@@ -198,12 +198,14 @@
                             <label for="clave" class="block mb-1 text-orange-600 font-semibold">
                                 Delegación Generada
                             </label>
-                            <input id="clave" type="numeric" wire:model.live="clave" readonly
+                            <input id="clave" type="text" wire:model="clave" readonly
                                 class="w-full border rounded p-2 bg-gray-100" />
+
                             @error('clave')
-                                <p class="text-red-600 text-sm mt-1"> {{$message}} </p>
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
     
                         <!-- Botón Guardar -->
                         <div>
