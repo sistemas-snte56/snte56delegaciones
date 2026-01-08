@@ -22,15 +22,24 @@
                 @endif
 
 
+                <!-- Buscar -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/></svg>
+                        </div>
+                        <input type="search" id="search" wire:model.live='search' class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Buscar" required />
+                    </div>
+                </div>                
+
+
                 <table class="min-w-full border border-gray-200">
                     <thead class="bg-gray-100">
                         <tr class="text-left text-sm">
                             <th class="px-3 py-2">Región</th>
                             <th class="px-3 py-2">Clave</th>
-                            <th class="px-3 py-2">Tipo</th>
                             <th class="px-3 py-2">Nivel</th>
                             <th class="px-3 py-2">Sede</th>
-                            <th class="px-3 py-2">Periodo</th>
                             <th class="px-3 py-2">Estatus</th>
                             <th class="px-3 py-2 text-center">Acciones</th>
                         </tr>
@@ -47,9 +56,7 @@
                                     {{ $delegacion->clave }}
                                 </td>
 
-                                <td class="px-3 py-2">
-                                    {{ $delegacion->tipo }}
-                                </td>
+
 
                                 <td class="px-3 py-2">
                                     {{ $delegacion->nivel->nombre ?? '-' }}
@@ -59,11 +66,6 @@
                                     {{ $delegacion->sede }}
                                 </td>
 
-                                <td class="px-3 py-2">
-                                    {{ $delegacion->fecha_inicio?->format('Y') }}
-                                    -
-                                    {{ $delegacion->fecha_fin?->format('Y') }}
-                                </td>
 
                                 <td class="px-3 py-2">
                                     <span class="px-2 py-1 rounded text-xs
@@ -97,6 +99,10 @@
                         @endforelse
                     </tbody>
                 </table>
+
+                <div class="mt-3">
+                    {{ $delegaciones->links() }}
+                </div>
             </div>
         </div>
 

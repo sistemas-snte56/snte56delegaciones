@@ -69,7 +69,7 @@
                                     <option value="">Seleccione</option>
                                     <option value="ACTIVO">Activos</option>
                                     <option value="JUBILADO">Jubilados</option>
-                                    <option value="CENTRO_TRABAJO">Centro de Trabajo</option>
+                                    <option value="CT">Centro de Trabajo</option>
                                 </select>
                                 @error('tipo')
                                 <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
