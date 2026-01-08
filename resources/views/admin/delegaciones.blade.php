@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="py-6">
-        <livewire:delegaciones.create />
+        <livewire:delegaciones.index />
     </div>
 </x-app-layout>

@@ -213,14 +213,18 @@ class Create extends Component
             'fecha_fin' => $this->fecha_final,    // tipo date
         ]);
 
-        session()->flash('success', 'Delegación creada correctamente.');
+        // session()->flash('success', 'Delegación creada correctamente.');
 
-        $this->reset();
-        $this->mount();
+        // $this->reset();
+        // $this->mount();
+
+        return redirect()
+            ->route('admin.delegaciones')
+            ->with('success','Delegación creada correctamente.');
     }
 
     public function render()
     {
-        return view('livewire.delegaciones.create');
+        return view('livewire.delegaciones.create')->layout('layouts.app');
     }
 }

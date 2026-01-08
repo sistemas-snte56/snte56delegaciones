@@ -27,6 +27,11 @@ class Delegacion extends Model
         'fecha_fin',
     ];
 
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_fin' => 'date',
+    ];
+
     /**
      * La delegación pertenece a una región
      */
@@ -42,6 +47,14 @@ class Delegacion extends Model
     {
         return $this->belongsTo(Nivel::class, 'nivel_id');
     }
+
+    /**
+     * Una delegacion tiene muchas nomenclaturas
+     */
+    public function nomenclatura(): BelongsTo
+        {
+            return $this->belongsTo(Nomenclatura::class, 'nomenclatura_id');
+        }
 
     /**
      * Una delegación tiene muchos representantes (comité)
