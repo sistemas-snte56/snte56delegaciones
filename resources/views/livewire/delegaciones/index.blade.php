@@ -77,14 +77,13 @@
                                 </td>
 
                                 <td class="px-3 py-2 text-center space-x-2">
-                                    <button class="text-blue-600 hover:underline">
+                                    <a href="{{ route('admin.delegaciones.edit', $delegacion) }}"
+                                        class="btn btn-sm btn-warning text-blue-600 hover:underline">
                                         Editar
-                                    </button>
-
+                                    </a>
                                     <button class="text-orange-600 hover:underline">
                                         Cerrar
                                     </button>
-
                                     <button class="text-gray-600 hover:underline">
                                         Comité
                                     </button>

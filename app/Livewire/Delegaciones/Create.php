@@ -44,7 +44,7 @@ class Create extends Component
         'nivel_id' => 'required',
         'sede' => 'required|string',
         'direccion' => 'required|string',
-        'codigo_postal' => 'required|numeric',
+        'codigo_postal' => 'required|numeric|digits:5',
         'ciudad' => 'required|string',
         'estado' => 'required|string',
     ];    
@@ -63,7 +63,7 @@ class Create extends Component
         'sede.required' => 'Debes ingresar la sede.',
         'direccion.required' => 'Debes ingresar la dirección.',
         'codigo_postal.required' => 'Debes ingresar el código postal.',
-        'codigo_postal.numeric' => 'El código postal debe ser numérico.',
+        'codigo_postal.digits' => 'El código postal debe ser de cinco dígitos.',
         'ciudad.required' => 'Debes ingresar la ciudad.',
         'estado.required' => 'Debes ingresar el estado.',
     ];    
