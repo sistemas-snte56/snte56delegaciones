@@ -8,6 +8,8 @@ use App\Models\Region;
 use App\Models\Nivel;
 use App\Models\Nomenclatura;
 
+use function Pest\Laravel\session;
+
 class Create extends Component
 {
     public $region_id;
@@ -169,14 +171,44 @@ class Create extends Component
 
         $clave = $this->clave;
 
-        $existe = Delegacion::where('clave', $clave)
-            ->where('estatus', 'ACTIVA')
-            ->exists();
+        // withTrashed() trae tanto registros activos como inactivos 
+        $delegacionExistente = Delegacion::withTrashed()
+            ->where('clave',$clave)
+            ->first();
 
-        if ($existe) {
-            $this->addError('numero', 'La delegación ya está en uso por una delegación activa.');
+        // Si existe y esta inactiva -> reactivar
+        if ($delegacionExistente && $delegacionExistente->trashed()) {
+            
+            $delegacionExistente->restore();
+            
+            $delegacionExistente->update([
+                'region_id' => $this->region_id,
+                'nivel_id' => $this->nivel_id,
+                'tipo' => $this->tipo,
+                'numero' =>  $this->numero,
+                'clave' => $this->clave, // si se genera automáticamente            
+                'estatus'   => 'ACTIVA',
+                'nomenclatura_id' => $this->nomenclatura_id,
+                'sede' => mb_strtoupper($this->sede,'UTF-8'),
+                'direccion' => mb_strtoupper($this->direccion,'UTF-8'),
+                'cp' => $this->codigo_postal,
+                'ciudad' => mb_strtoupper($this->ciudad,'UTF-8'),
+                'estado' => mb_strtoupper($this->estado,'UTF-8'),
+                'fecha_inicio' => $this->fecha_inicio,  // tipo date
+                'fecha_fin' => $this->fecha_final,    // tipo date                
+            ]);
+
+            return redirect()
+                ->route('admin.delegaciones')
+                ->with('success','Delegación reactivada correctamente.');            
+        }
+        
+        // Si existe y esta activada -> bloquear 
+        if ($delegacionExistente && !$delegacionExistente->trashed()) {
+            $this->addError('clave', 'La delegación ya está en uso por una delegación activa.');
             return;
         }
+        
 
         // Solo para ver los datos
         /*dd([
@@ -212,11 +244,6 @@ class Create extends Component
             'fecha_inicio' => $this->fecha_inicio,  // tipo date
             'fecha_fin' => $this->fecha_final,    // tipo date
         ]);
-
-        // session()->flash('success', 'Delegación creada correctamente.');
-
-        // $this->reset();
-        // $this->mount();
 
         return redirect()
             ->route('admin.delegaciones')

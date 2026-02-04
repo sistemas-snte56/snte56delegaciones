@@ -81,7 +81,9 @@
                                         class="btn btn-sm btn-warning text-blue-600 hover:underline">
                                         Editar
                                     </a>
-                                    <button class="text-orange-600 hover:underline">
+                                    <button 
+                                        wire:click="eliminarDelegacion({{$delegacion->id}})"
+                                        class="text-orange-600 hover:underline">
                                         Cerrar
                                     </button>
                                     <button class="text-gray-600 hover:underline">

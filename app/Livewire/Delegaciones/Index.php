@@ -21,7 +21,19 @@ class Index extends Component
     {
         $this->resetPage();
     }
-    
+
+    public function eliminarDelegacion($id)
+    {
+        $delegacion = Delegacion::findOrFail($id);
+        $delegacion->delete();
+
+        $delegacion->update([
+            'estatus' => "INACTIVA",
+        ]);        
+
+        session()->flash('success','Delegación cerrada correctamente');
+    }
+
     public function render()
     {
         // return view('livewire.delegaciones.index', [
