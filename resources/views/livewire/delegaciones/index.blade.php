@@ -1,4 +1,4 @@
-<main class="py-6">
+<div class="py-6">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         <div class="bg-white shadow rounded-lg p-6">
@@ -15,13 +15,6 @@
 
             <div class="overflow-x-auto">
 
-                @if (session()->has('success'))
-                    <div class="mb-4 bg-green-100 text-green-800 px-4 py-2 rounded">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-
                 <!-- Buscar -->
                 <div class="mb-4">
                     <div class="relative">
@@ -31,7 +24,6 @@
                         <input type="search" id="search" wire:model.live='search' class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Buscar" required />
                     </div>
                 </div>                
-
 
                 <table class="min-w-full border border-gray-200">
                     <thead class="bg-gray-100">
@@ -56,8 +48,6 @@
                                     {{ $delegacion->clave }}
                                 </td>
 
-
-
                                 <td class="px-3 py-2">
                                     {{ $delegacion->nivel->nombre ?? '-' }}
                                 </td>
@@ -65,7 +55,6 @@
                                 <td class="px-3 py-2">
                                     {{ $delegacion->sede }}
                                 </td>
-
 
                                 <td class="px-3 py-2">
                                     <span class="px-2 py-1 rounded text-xs
@@ -86,6 +75,12 @@
                                         class="text-orange-600 hover:underline">
                                         Cerrar
                                     </button>
+
+                                    <button wire:click="$dispatch('confirm-delete',{ id:{{ $delegacion->id }}})" 
+                                        class="text-orange-600 hover:underline">
+                                        Cerrar 2
+                                    </button>
+
                                     <button class="text-gray-600 hover:underline">
                                         Comité
                                     </button>
@@ -108,4 +103,52 @@
         </div>
 
     </div>
-</main>
+</div>
+
+@if (session()->has('success'))
+    @script
+        <script type="text/javascript">
+            Swal.fire({
+                title: "Excelente...",
+                text: "{{ session('success') }}",
+                icon: "success",
+                confirmButtonText: "Ok",
+                confirmButtonColor: "#ee731c",                
+            });           
+        </script>
+    @endscript
+@endif
+
+@script
+    <script type="text/javascript">
+            $wire.on('confirm-delete',(data)=>{
+                Swal.fire({
+                    title: "¿Estás seguro?",
+                    text: "¡No podrás revertir esto!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Sí, eliminar",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Si confirma, llamamos a la función de PHP
+                        $wire.eliminarDelegacion(data.id);
+                    }
+                });                
+            });
+
+            // 2. Escuchamos cuando PHP nos dice que ya se borró (el dispatch del componente)
+            $wire.on('deleted', (event) => {
+                Swal.fire({
+                    title:  "¡Eliminado!",
+                    text:   event.mensaje,
+                    icon:   "success",
+                    confirmButtonText: "Ok",
+                    confirmButtonColor: "#ee731c",                     
+
+                });
+            }); 
+    </script>
+@endscript

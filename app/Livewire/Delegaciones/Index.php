@@ -31,7 +31,8 @@ class Index extends Component
             'estatus' => "INACTIVA",
         ]);        
 
-        session()->flash('success','Delegación cerrada correctamente');
+        // session()->flash('success','Delegación cerrada correctamente');
+        $this->dispatch('deleted', mensaje:"La Delegación $delegacion->clave ha sido inactiva satisfactoriamente.");
     }
 
     public function render()

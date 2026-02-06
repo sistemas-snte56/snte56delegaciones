@@ -247,7 +247,8 @@ class Create extends Component
 
         return redirect()
             ->route('admin.delegaciones')
-            ->with('success','Delegación creada correctamente.');
+            ->with('success','La Delegación se a creado satisfactoriamente.');
+
     }
 
     public function render()
