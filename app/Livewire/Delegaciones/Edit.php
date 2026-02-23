@@ -81,26 +81,27 @@ class Edit extends Component
             'nivel_id' => ['required', 'exists:niveles,id'],
             'nomenclatura_id' => ['required', 'exists:nomenclaturas,id'],
 
-            'numero' => [
-                'required',
-                'numeric',
-                Rule::unique('delegaciones')
-                    ->where(fn ($query) =>
-                        $query->where('region_id', $this->region_id)
-                              ->where('nivel_id', $this->nivel_id)
-                              ->where('nomenclatura_id', $this->nomenclatura_id)
-                              ->where('estatus', 'ACTIVA')
-                    )
-                    ->ignore($this->delegacion->id),
-            ],
+            // 'numero' => [
+            //     'required',
+            //     'numeric',
+            //     Rule::unique('delegaciones')
+            //         ->where(fn ($query) =>
+            //             $query->where('region_id', $this->region_id)
+            //                   ->where('nivel_id', $this->nivel_id)
+            //                   ->where('nomenclatura_id', $this->nomenclatura_id)
+            //                   ->where('estatus', 'ACTIVA')
+            //         )
+            //         ->ignore($this->delegacion->id),
+            // ],
 
-            'tipo' => ['required', 'string'],
+            // 'tipo' => ['required', 'string'],
+
             'fecha_inicio' => ['required', 'date'],
             'fecha_fin' => ['required', 'date', 'after_or_equal:fecha_inicio'],
 
             'sede' => ['required', 'string'],
             'direccion' => ['required', 'string'],
-            'codigo_postal' => ['required', 'string'],
+            'codigo_postal' => ['required', 'regex:/^[0-9]{5}$/'],
             'ciudad' => ['required', 'string'],
             'estado' => ['required', 'string'],
         ];
@@ -124,9 +125,9 @@ class Edit extends Component
         $this->delegacion->update([
             'region_id' => $this->region_id,
             'nivel_id' => $this->nivel_id,
-            'nomenclatura_id' => $this->nomenclatura_id,
-            'tipo' => $this->tipo,
-            'numero' => $this->numero,
+            // 'nomenclatura_id' => $this->nomenclatura_id,
+            // 'tipo' => $this->tipo,
+            // 'numero' => $this->numero,
             'estatus' => $this->estatus,
 
             'sede' => $this->sede,
@@ -151,6 +152,10 @@ class Edit extends Component
     {
         $this->redirectRoute('admin.delegaciones', navigate: true);
     }
+
+
+
+    public Delegacion $delegacion2;
 
     public function render()
     {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Persona extends Model
 {
@@ -34,9 +35,9 @@ class Persona extends Model
     /**
      * Una persona puede tener un cargo sindical (representante)
      */
-    public function representante(): HasOne
+    public function representantes(): HasMany
     {
-        return $this->hasOne(Representante::class, 'persona_id');
+        return $this->HasMany(Representante::class, 'persona_id');
     }
 
     /**

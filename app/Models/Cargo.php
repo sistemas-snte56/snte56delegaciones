@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Cargo extends Model
@@ -20,5 +21,10 @@ class Cargo extends Model
     public function representantes(): HasMany
     {
         return $this->hasMany(Representante::class, 'cargo_id');
+    }
+
+    public function nomenclaturas(): BelongsToMany
+    {
+        return $this->belongsToMany(Nomenclatura::class,'cargo_nomenclatura');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Nomenclatura extends Model
@@ -29,5 +30,10 @@ class Nomenclatura extends Model
     public function centrosTrabajo(): HasMany
     {
         return $this->hasMany(CentroTrabajo::class, 'nomenclatura_id');
+    }
+
+    public function cargos(): BelongsToMany
+    {
+        return $this->belongsToMany(Cargo::class,'cargo_nomenclatura');
     }
 }

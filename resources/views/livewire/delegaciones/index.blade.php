@@ -71,20 +71,15 @@
                                         Editar
                                     </a>
                                     <button 
-                                        wire:click="eliminarDelegacion({{$delegacion->id}})"
+                                        wire:click="$dispatch('confirm-delete',{ id:{{ $delegacion->id }}})" 
                                         class="text-orange-600 hover:underline">
                                         Cerrar
                                     </button>
-
-                                    <button wire:click="$dispatch('confirm-delete',{ id:{{ $delegacion->id }}})" 
-                                        class="text-orange-600 hover:underline">
-                                        Cerrar 2
-                                    </button>
-
                                     <button class="text-gray-600 hover:underline">
                                         Comité
                                     </button>
                                 </td>
+
                             </tr>
                         @empty
                             <tr>
