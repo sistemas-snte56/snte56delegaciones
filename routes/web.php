@@ -1,8 +1,9 @@
 <?php
 
-use App\Livewire\Delegaciones\Index;
 use App\Livewire\Delegaciones\Create;
 use App\Livewire\Delegaciones\Edit;
+use App\Livewire\Delegaciones\Index;
+use App\Livewire\Regiones\Region;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,8 +41,7 @@ Route::view('profile', 'profile')
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::view('/admin/regions', 'admin.regions')
-        ->name('admin.regions');
+    Route::view('/admin/regions', 'admin.regions')->name('admin.regions');
 
     // Route::view('/admin/delegaciones', 'admin.delegaciones')->name('admin.delegaciones');
     // Route::view('/admin/delegaciones/create', 'livewire.delegaciones.create')->name('admin.delegaciones.create');
@@ -49,6 +49,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/delegaciones', Index::class)->name('admin.delegaciones');
     Route::get('/admin/delegaciones/create', Create::class)->name('admin.delegaciones.create');    
     Route::get('/admin/delegaciones/{delegacion}/edit', Edit::class)->name('admin.delegaciones.edit');    
+
+    Route::get('/admin/regiones', Region::class)->name('admin.regiones');
 
     Route::view('/admin/usuarios', 'admin.usuarios')
         ->name('admin.usuarios');
